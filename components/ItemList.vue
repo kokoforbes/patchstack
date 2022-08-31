@@ -10,6 +10,9 @@ name: 'ItemList'
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.item-list{
+  height: 100vh;
+  background: red;
+}
 </style>
