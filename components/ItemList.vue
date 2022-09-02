@@ -1,8 +1,5 @@
 <template>
-  <nuxt-link
-    :to="{ name: 'details', params: { vulnerability: this.vulnerability } }"
-  >
-    <div
+    <div @click="goToDetails()"
       class="item-list flex flex-col flex-grow my-8 bg-white shadow rounded-lg p-6"
     >
       <h2 class="text-2xl leading-7 font-semibold">
@@ -12,10 +9,11 @@
         {{ vulnerability.description }}
       </p>
     </div>
-  </nuxt-link>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'ItemList',
 
@@ -27,6 +25,19 @@ export default {
       },
     },
   },
+
+  methods: {
+    ...mapActions(['setCurrentVulnerability']),
+
+
+    goToDetails(){
+    this.setCurrentVulnerability(this.vulnerability)
+      this.$router.push({
+        name: 'details' 
+      })
+    }
+
+  }
 }
 </script>
 
