@@ -4,7 +4,7 @@
       <div class="relative flex-grow w-full">
         <label for="title" class="leading-7 text-gray-600">Title</label>
         <input
-          v-model="vulnerability.title"
+          v-model="title"
           type="text"
           id="title"
           name="title"
@@ -16,7 +16,7 @@
           >Description</label
         >
         <textarea
-          v-model="vulnerability.description"
+          v-model="description"
           id="description"
           name="description"
           class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
@@ -48,36 +48,39 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Edit',
 
-  data() {
-    return {
-      vulnerability: {
-        title: '',
-        description: '',
-      },
-    }
-  },
-
   computed: {
     ...mapGetters(['getVulnerability']),
   },
 
-  mounted() {
-    this.vulnerability = this.getVulnerability
+  computed: {
+    title: {
+      get() {
+        return this.$store.state.vulnerability.title
+      },
+      set(value) {
+        this.$store.commit('UPDATE_TITLE', value)
+      },
+    },
+
+    description: {
+      get() {
+        return this.$store.state.vulnerability.description
+      },
+      set(value) {
+        this.$store.commit('UPDATE_DESCRIPTION', value)
+      },
+    },
   },
 
   methods: {
-    ...mapActions(['updateVulnerability', 'setCurrentVulnerability']),
+    ...mapActions(['updateVulnerability']),
 
     update() {
-      this.updateVulnerability(this.vulnerability)
-      this.setCurrentVulnerability(this.vulnerability)
-
-      this.vulnerability.title = ''
-      this.vulnerability.description = ''
+     this.updateVulnerability()
 
       setTimeout(() => {
         this.$router.push('/details')
-      }, 2000)
+      }, 1000)
     },
   },
 }

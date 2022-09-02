@@ -73,7 +73,7 @@ export default {
           this.description = ''
 
           this.$router.push('/')
-        }, 2000)
+        }, 1500)
       }
     },
   },

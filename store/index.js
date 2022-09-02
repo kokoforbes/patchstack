@@ -65,6 +65,7 @@ export const state = () => ({
   vulnerability: {
     title: '',
     description: '',
+    id: null
   },
 })
 
@@ -85,6 +86,14 @@ export const actions = {
   async updateVulnerability({ commit }, payload) {
     await commit('UPDATE_VULNERABILITY', payload)
   },
+
+  async updateTitle({ commit }, payload) {
+    await commit('UPDATE_TITLE', payload)
+  },
+
+  async updateDescription({ commit }, payload) {
+    await commit('UPDATE_DESCRIPTION', payload)
+  },
 }
 
 const mutations = {
@@ -96,15 +105,23 @@ const mutations = {
     state.vulnerability = payload
   },
 
-  UPDATE_VULNERABILITY(state,  vuln ) {
-      // Find index of the item to be updated
+  UPDATE_TITLE(state, payload){
+    state.vulnerability.title = payload
+  },
+
+  UPDATE_DESCRIPTION(state, payload){
+    state.vulnerability.description = payload
+  },
+
+  UPDATE_VULNERABILITY(state) {
+    // Find index of the item to be updated
     const itemIndex = state.vulnerabilities.findIndex(
-      (_item) => _item.id === vuln.id
+      (_item) => _item.id === state.vulnerability.id
     )
 
     if (itemIndex === -1) return
 
-    state.vulnerabilities[itemIndex] = vuln;
+    state.vulnerabilities[itemIndex] = state.vulnerability
   },
 }
 
