@@ -62,12 +62,15 @@ export const state = () => ({
         'is added from the Top 10 community survey (#1). The data shows a relatively low incidence rate with above average testing coverage, along with above-average ratings for Exploit and Impact potential. This category represents the scenario where the security community members are telling us this is important, even though it’s not illustrated in the data at this time.',
     },
   ],
-  vulnerability: {}
+  vulnerability: {
+    title: '',
+    description: '',
+  },
 })
 
 const getters = {
   getVulnerabilities: (state) => state.vulnerabilities,
-  getVulnerability: (state) => state.vulnerability
+  getVulnerability: (state) => state.vulnerability,
 }
 
 export const actions = {
@@ -75,9 +78,13 @@ export const actions = {
     await commit('ADD_VULNERABILITIES', payload)
   },
 
-  async setCurrentVulnerability({commit}, payload){
+  async setCurrentVulnerability({ commit }, payload) {
     await commit('SET_CURRENT_VULNERABILITY', payload)
-  }
+  },
+
+  async updateVulnerability({ commit }, payload) {
+    await commit('UPDATE_VULNERABILITY', payload)
+  },
 }
 
 const mutations = {
@@ -85,15 +92,19 @@ const mutations = {
     state.vulnerabilities.push(payload)
   },
 
-  SET_CURRENT_VULNERABILITY(state, payload){
+  SET_CURRENT_VULNERABILITY(state, payload) {
     state.vulnerability = payload
   },
 
-  UPDATE_VULNERABILITY(state, { item }) {
+  UPDATE_VULNERABILITY(state,  vuln ) {
+      // Find index of the item to be updated
     const itemIndex = state.vulnerabilities.findIndex(
-      (_item) => _item.id === item.id
+      (_item) => _item.id === vuln.id
     )
+
     if (itemIndex === -1) return
+
+    state.vulnerabilities[itemIndex] = vuln;
   },
 }
 
